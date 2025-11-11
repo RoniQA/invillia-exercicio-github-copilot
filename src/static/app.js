@@ -20,9 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Function to escape HTML special characters
+        function escapeHTML(str) {
+          return str.replace(/[&<>"'`=\/]/g, function (s) {
+            return ({
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+              '`': '&#96;',
+              '=': '&#61;',
+              '/': '&#47;'
+            })[s];
+          });
+        }
+
         const participantsList = details.participants.length > 0
           ? `<ul class="participants-list">
-              ${details.participants.map(email => `<li>${email}</li>`).join('')}
+              ${details.participants.map(email => `<li>${escapeHTML(email)}</li>`).join('')}
             </ul>`
           : '<p class="no-participants">No participants yet</p>';
 
